@@ -1,5 +1,5 @@
 from typing import List
-from .model import Student
+from .models import Student
 
 # Données de test initiales
 INITIAL_DATA = [
