@@ -47,4 +47,4 @@ jobs:
       #  Tests : Exécute tes tests unitaires
       - name: Lancement des tests
         run: |
-          pytest
+          python -m pytest   
