@@ -6,16 +6,22 @@ from src.data.storage import reset_data
 
 app = FastAPI(title="Students API", description="API de gestion d'étudiants en mémoire")
 
+
 # Forcer le code 400 (au lieu de 422 par défaut dans FastAPI) pour les erreurs de validation
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc: RequestValidationError):
     return JSONResponse(
         status_code=400,
-        content={"detail": "Données invalides. Veuillez vérifier le format de votre requête.", "errors": exc.errors()}
+        content={
+            "detail": "Données invalides. Veuillez vérifier le format de votre requête.",
+            "errors": exc.errors(),
+        },
     )
+
 
 # Intégration du routeur
 app.include_router(student.router)
+
 
 # Route utilitaire (bonus) pour réinitialiser la base de données lors des tests
 @app.post("/reset", tags=["Tests"])
