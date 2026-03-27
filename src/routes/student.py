@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException, Query, Path, status
 from typing import List
+
+from fastapi import APIRouter, HTTPException, Path, Query, status
+
 from src.data.models import Student, StudentBase
 from src.data.storage import students_db
 
@@ -45,11 +47,7 @@ def search_students(q: str = Query(default=None)):
         )
 
     q_lower = q.lower()
-    results = [
-        s
-        for s in students_db
-        if q_lower in s.firstName.lower() or q_lower in s.lastName.lower()
-    ]
+    results = [s for s in students_db if q_lower in s.firstName.lower() or q_lower in s.lastName.lower()]
     return results
 
 
@@ -100,9 +98,7 @@ def update_student(student_in: StudentBase, id: int = Path(...)):
 
     # Vérification de l'unicité de l'email pour un AUTRE étudiant
     if any(s.email == student_in.email and s.id != id for s in students_db):
-        raise HTTPException(
-            status_code=409, detail="Cet email est déjà utilisé par un autre étudiant."
-        )
+        raise HTTPException(status_code=409, detail="Cet email est déjà utilisé par un autre étudiant.")
 
     updated_student = Student(id=id, **student_in.model_dump())
     students_db[student_idx] = updated_student

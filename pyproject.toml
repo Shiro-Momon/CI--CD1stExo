@@ -1,0 +1,12 @@
+[tool.ruff]
+# Longueur maximale d'une ligne (par défaut 88, on met 120 pour plus de confort)
+line-length = 120
+
+[tool.ruff.lint]
+# Sélection des règles à vérifier
+select = [
+    "E",   # Erreurs de style standard (gère l'indentation cohérente)
+    "F",   # Erreurs logiques : variables inutilisées, imports manquants
+    "I",   # Trie et organise automatiquement les imports
+    "T20", # Interdit strictement les "print()" oubliés dans le code
+]

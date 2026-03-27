@@ -1,9 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
 
+from src.data.storage import reset_data
+
 # Utilisation des imports absolus comme nous l'avons corrigé précédemment
 from src.main import app
-from src.data.storage import reset_data
 
 # Initialisation du client de test
 client = TestClient(app)
