@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from ..routes import students
-from ..data.storage import reset_data
+from routes import student
+from data.storage import reset_data
 
 app = FastAPI(title="Students API", description="API de gestion d'étudiants en mémoire")
 
@@ -15,7 +15,7 @@ async def validation_exception_handler(request, exc: RequestValidationError):
     )
 
 # Intégration du routeur
-app.include_router(students.router)
+app.include_router(student.router)
 
 # Route utilitaire (bonus) pour réinitialiser la base de données lors des tests
 @app.post("/reset", tags=["Tests"])
