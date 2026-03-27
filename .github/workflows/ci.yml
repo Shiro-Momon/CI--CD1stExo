@@ -1,0 +1,50 @@
+name: CI Pipeline
+
+#  Trigger
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    #  Matrix Strategy : On teste sur deux versions récentes de Python
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+      #  Checkout : Récupère ton code depuis le dépôt GitHub
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      #  Setup : Installe la version de Python définie dans la matrice
+      - name: Configuration de Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip' # Petite astuce pro : met en cache les dépendances pour accélérer le pipeline
+
+      #  Install : Installe tes librairies
+      - name: Installation des dépendances
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest httpx
+
+      #  Lint : Vérifie que le code est propre
+      - name: Analyse du code (Lint)
+        run: |
+          ruff check .
+          # On demande à Ruff de vérifier le formatage. S'il n'est pas bon, le pipeline échoue (rouge)
+          ruff format --check .
+
+      #  Tests : Exécute tes tests unitaires
+      - name: Lancement des tests
+        run: |
+          pytest
