@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query, Path, status
 from typing import List
-from data.models import Student, StudentBase
-from data.storage import students_db
+from src.data.models import Student, StudentBase
+from src.data.storage import students_db
 
 router = APIRouter(prefix="/students", tags=["Students"])
 

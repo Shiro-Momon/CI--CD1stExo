@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from routes import student
-from data.storage import reset_data
+from src.routes import student
+from src.data.storage import reset_data
 
 app = FastAPI(title="Students API", description="API de gestion d'étudiants en mémoire")
 
